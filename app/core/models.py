@@ -5,13 +5,14 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
-     PermissionsMixin,
+    PermissionsMixin,
 )
 # AbstractBaseUser contains the functionality for authentication
 # system but not any fields and
 
 # PermissionsMixin contains the functionality for permissions
 # and also the fields needed for the permissions system
+
 
 class UserManager(BaseUserManager):
     """Manager for users."""
@@ -35,12 +36,13 @@ class UserManager(BaseUserManager):
 
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True) # can login
-    is_staff = models.BooleanField(default=False) # staff user
+    is_active = models.BooleanField(default=True)  # can login
+    is_staff = models.BooleanField(default=False)  # staff user
 
     objects = UserManager()
 
