@@ -62,7 +62,7 @@ class PrivateRecipeApiTests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    def test_retrive_recipes(self):
+    def test_retrieve_recipes(self):
         """
         Test retrieving a list of recipes
         """
@@ -72,7 +72,7 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.get(RECIPE_URL)
 
         recipes = Recipe.objects.all().order_by('-id') # reverse order
-        serializer = RecipeSerializer(recipes, many=True)
+        serializer = RecipeSerializer([recipes], many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
@@ -90,6 +90,6 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.get(RECIPE_URL)
 
         recipes = Recipe.objects.filter(user=self.user)
-        serializer = RecipeSerializer(recipes, many=True)
+        serializer = RecipeSerializer([recipes], many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
