@@ -29,7 +29,7 @@ class PublicUserApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    def test_create_valid_user_success(self):
+    def test_create_user_success(self):
         """
         Test creating user with valid payload is successful
         """
@@ -50,7 +50,7 @@ class PublicUserApiTests(TestCase):
         Test creating a user that already exists fails
         """
         payload = {
-            'email': 'test@exapmle.com',
+            'email': 'test@example.com',
             'password': 'testpass',
             'name': 'Test Name'
         }
@@ -62,7 +62,7 @@ class PublicUserApiTests(TestCase):
     def test_password_too_short(self):
         """Test that the password must be more than 5 characters"""
         payload = {
-            'email': 'test@exapmle.com',
+            'email': 'test@example.com',
             'password': 'pwm',
             'name': 'Test Name'
         }
@@ -78,7 +78,7 @@ class PublicUserApiTests(TestCase):
     def test_create_token_for_user(self):
         """Test generates token for valid credentials."""
         user_details = {
-            'name' : 'Test_Name',
+            'name' : 'Test Name',
             'email': 'test@example.com',
             'password': 'test-user-password123',
         }
@@ -93,14 +93,14 @@ class PublicUserApiTests(TestCase):
         self.assertIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-    def test_creste_token_bad_credentials(self):
-        """Test returns eooro if credentials invalid."""
+    def test_create_token_bad_credentials(self):
+        """Test returns error if credentials invalid."""
         create_user(
             email= 'test@example.com',
             password= 'goodpass'
         )
 
-        payload= {'emails':'test@example.com', 'password': 'badpass'}
+        payload= {'email':'test@example.com', 'password': 'badpass'}
         res = self.client.post(TOKEN_URL,payload)
 
         self.assertNotIn('token',res.data)
